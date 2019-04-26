@@ -42,6 +42,12 @@
             </ul>
           </div>
 
+          <md-dialog-alert
+            
+            :md-active.sync="resMessage"
+            md-content="Tarefa adicionada com sucesso!"
+            md-confirm-text="Ok!" />
+
           <md-card-actions>
             <!-- v-on:click IGUAL @click. -->
             <!-- <md-button class="md-primary md-raised" v-on:click.native="toggleNavigation">NOVO</md-button> -->
@@ -53,10 +59,14 @@
   </md-app-content>
 </template>
 <script>
+import axios from 'axios'
 
 export default {
+  name: 'NovaTarefa',
+  
   data: function() {
     return {
+      resMessage: false,
       errors: [],
       nameTarefa: null,
       importancia: null,
@@ -81,10 +91,32 @@ export default {
       }
 
       if(this.nameTarefa && this.importancia && this.dateTarefa){//Tudo preenchido...
+        this.sendData(this.nameTarefa, this.importancia, this.dateTarefa);
+        // let t = this.sendData(this.nameTarefa, this.importancia, this.dateTarefa);
+        // console.log(t);
         return true;
       }
+      
+    },
+    sendData(tarefa, importancia, data){
+      var vm = this;
+      const data_formt = data.getFullYear()+"-"+(data.getMonth() + 1)+"-"+ data.getDate();  
+      const params = new URLSearchParams();
+      params.append('nome_tarefa', tarefa);
+      params.append('importancia', importancia);
+      params.append('data_hora', data_formt);
 
+      axios.post('http://192.168.100.147/webservice/todo/add', params, {headers: {'Content-type': 'application/x-www-form-urlencoded'} })
+      .then(function (response){
+        //console.log(response.data);
+        let res = response.data;
+        if( res.indexOf("sucesso") ){
+          vm.resMessage = true;
+        }
+      });
 
+     
+        
     }
   }
 };

@@ -73,9 +73,12 @@
 </style>
 
 <script>
+
 export default {
+
   data: () => ({
     menuVisible: false
   })
+
 };
 </script>

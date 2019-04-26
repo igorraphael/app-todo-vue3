@@ -8,12 +8,22 @@
             <md-button class="md-primary md-raised" >COMECE JÁ!</md-button>
           </router-link>
     </md-empty-state>
-
   </md-app-content>
 </template>
 <script>
+
+
 export default {
+  name: 'WelcomeApp',
+
+    data: function() {
+    return {
+      dados:[] 
+    }
+  },
   
+
+
 };
 </script>
 <style>
