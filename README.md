@@ -1,4 +1,5 @@
-# vue-brconnect
+# vue-app-task-exemple
+This application is a simple vue example, responding to the [Webservice](https://github.com/igorraphael/webservice-php-app-todo).
 
 ## Project setup
 ```
