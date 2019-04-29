@@ -14,13 +14,13 @@
         <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
 
         <div class="md-toolbar-section-end">
-          <md-button class="md-icon-button">
+          <md-button class="md-icon-button" @click="confDelete = true">
             <md-icon>delete</md-icon>
           </md-button>
         </div>
       </md-table-toolbar>
 
-      <md-table-row slot="md-table-row" slot-scope="{ item }"  md-selectable="multiple" md-auto-select>
+      <md-table-row slot="md-table-row" slot-scope="{ item }" :key="item.id" md-selectable="multiple" >
         <md-table-cell md-label="Id" md-sort-by="">{{ item.id }}</md-table-cell>
         <md-table-cell md-label="Tarefa" md-sort-by="">{{ item.nome_tarefa }}</md-table-cell>
         <md-table-cell md-label="Importancia" md-sort-by="">{{ item.importancia }}</md-table-cell>
@@ -28,6 +28,19 @@
         <!-- <md-table-cell md-label="Situaçao" md-sort-by="">{{ item.status }}</md-table-cell> -->
       </md-table-row>
     </md-table>
+
+
+    <md-dialog-confirm
+      :md-active.sync="confDelete"
+      md-title="Deseja deletar essa(s) tarefa(s)?"
+      md-confirm-text="Sim"
+      md-cancel-text="Não"
+      @md-confirm="clickDelete" />
+
+      <md-dialog-alert
+            :md-active.sync="alertDelete"
+            md-content="Tarefa deleta."
+            md-confirm-text="Ok!" />
 
     <p>Selected:</p>
     {{ selected }}
@@ -44,21 +57,17 @@ export default {
 
   data: function() {
     return {
+      alertDelete:false,
+      confDelete: false,
       barLoading: false,
       selected: [],
-      tarefas:[],
-      select: {
-        id: '',
-        nome_tarefa: '',
-        status: '',
-        importancia: '',
-        obs: ''
-      }
+      tarefas:[]
     }
   },
   methods: {
+    
       getTask(){
-        var vm = this;
+        let vm = this;
         vm.barLoading = true;
         axios.get('http://192.168.100.147/webservice/todo/listar')
         .then(function(response){
@@ -68,7 +77,6 @@ export default {
       },
       onSelect(items) {//seleciona os itens
         this.selected = items;
-        
       },
       getAlternateLabel(count) {//altera nome da label
         let plural = '';
@@ -77,10 +85,29 @@ export default {
         }
         return `${count} Tarefa${plural} selecionada${plural}`;
       },
-      clickDelete(item){
-             
+      clickDelete(){
+        let vm = this;
+        for (let i = 0; i <  this.selected.length; ++i) {
+          const id = this.selected[i].id;
+          const index = this.selected[i];
+          this.onDeleteTask(id);
+          this.selected.splice( index, 1);
+          vm.$forceUpdate();
+        }
+        
+      },
+      onDeleteTask(id){
+        let vm = this;
+        axios.delete('http://192.168.100.147/webservice/todo/delete', {params : {id_tarefa: id} } )
+          .then(function (response){
+            console.log(response.data);
+            let res = response.data;
+            if( res.indexOf("deletada") ){
+              vm.alertDelete = true;
+            }
+          });
+        
       }
-
     },
   
     mounted(){//quando montado o componente chama esse method.
