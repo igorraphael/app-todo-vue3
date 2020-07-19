@@ -1,39 +1,53 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import App from './App.vue';
-import VueMaterial from 'vue-material';
-import 'vue-material/dist/vue-material.min.css';
-//import Vuelidate from 'vuelidate'
+import Buefy from 'buefy';
+import { library } from '@fortawesome/fontawesome-svg-core';
+// internal icons
+import {
+    faCheck,
+    faCheckCircle,
+    faInfoCircle,
+    faExclamationTriangle,
+    faExclamationCircle,
+    faArrowUp,
+    faAngleRight,
+    faAngleLeft,
+    faAngleDown,
+    faEye,
+    faEyeSlash,
+    faCaretDown,
+    faCaretUp,
+    faUpload,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import 'buefy/dist/buefy.css';
+import App from './components';
 
+Vue.config.productionTip = false;
+library.add(
+    faUser,
+    faCheck,
+    faCheckCircle,
+    faInfoCircle,
+    faExclamationTriangle,
+    faExclamationCircle,
+    faArrowUp,
+    faAngleRight,
+    faAngleLeft,
+    faAngleDown,
+    faEye,
+    faEyeSlash,
+    faCaretDown,
+    faCaretUp,
+    faUpload
+);
 
-
-
-
-import NovaTarefa from './components/NovaTarefa.vue';
-import ListarTarefas from './components/ListarTarefas.vue';
-import WelcomeApp from './components/WelcomeApp.vue';
-
-
-Vue.use(VueMaterial);
-Vue.use(VueRouter);
-//Vue.use(Vuelidate);
-
-
-
-const routes = [
-  { path: '/', component: WelcomeApp },
-  { path: '/nova-tarefa', component: NovaTarefa },
-  { path: '/listar-tarefa', component: ListarTarefas }
-
-]
-const router = new VueRouter({
-  routes
+Vue.component('vue-fontawesome', FontAwesomeIcon);
+Vue.use(Buefy, {
+    defaultIconComponent: 'vue-fontawesome',
+    defaultIconPack: 'fas',
 });
 
-
 new Vue({
-  router,
-  render: h => h(App),
-}).$mount('#app')
-
-
+    render: (h) => h(App),
+}).$mount('#app');
