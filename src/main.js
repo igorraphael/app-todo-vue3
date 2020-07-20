@@ -3,44 +3,18 @@ import Buefy from 'buefy';
 import { library } from '@fortawesome/fontawesome-svg-core';
 // internal icons
 import {
-    faCheck,
-    faCheckCircle,
-    faInfoCircle,
-    faExclamationTriangle,
-    faExclamationCircle,
-    faArrowUp,
-    faAngleRight,
-    faAngleLeft,
-    faAngleDown,
-    faEye,
-    faEyeSlash,
-    faCaretDown,
-    faCaretUp,
-    faUpload,
-    faUser,
+    faThumbtack,
+    faBan,
+    faEdit,
+    faClipboardCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'buefy/dist/buefy.css';
-import App from './components';
+import App from './App';
+import router from './router';
 
 Vue.config.productionTip = false;
-library.add(
-    faUser,
-    faCheck,
-    faCheckCircle,
-    faInfoCircle,
-    faExclamationTriangle,
-    faExclamationCircle,
-    faArrowUp,
-    faAngleRight,
-    faAngleLeft,
-    faAngleDown,
-    faEye,
-    faEyeSlash,
-    faCaretDown,
-    faCaretUp,
-    faUpload
-);
+library.add(faThumbtack, faBan, faEdit, faClipboardCheck);
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 Vue.use(Buefy, {
@@ -49,5 +23,6 @@ Vue.use(Buefy, {
 });
 
 new Vue({
+    router,
     render: (h) => h(App),
 }).$mount('#app');
