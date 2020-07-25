@@ -3,20 +3,60 @@ export default {
         list: { type: Array, default: null },
     },
 
-    mounted() {
-        console.log(this.list);
-    },
-
     data() {
         return {
             modalVisible: undefined,
             todos: this.list,
+            hover: false,
+            description: undefined,
+            sub: false,
         };
+    },
+
+    computed: {
+        hasError() {
+            return this.description &&
+                this.description.length > 1 &&
+                this.description.length < 6
+                ? 'is-danger'
+                : '';
+        },
+
+        messageError() {
+            return this.description &&
+                this.description.length > 1 &&
+                this.description.length < 6
+                ? 'Description must have at least 5 characters'
+                : '';
+        },
     },
 
     methods: {
         handleModal() {
             this.modalVisible = this.modalVisible ? '' : 'is-active';
+            this.description = undefined;
+        },
+
+        handleMouseHover() {
+            this.hover = !this.hover;
+        },
+
+        danger() {
+            const notif = this.$buefy.notification.open({
+                message: `Please, enter the description..`,
+                position: 'is-bottom-right',
+                type: 'is-danger',
+                hasIcon: true,
+            });
+        },
+
+        handleSubmit() {
+            if (!this.description || this.description.length < 6) {
+                this.danger();
+                return;
+            }
+            this.$emit('changes', this.description);
+            this.handleModal();
         },
     },
 
@@ -43,25 +83,67 @@ export default {
                 <div class={`modal ${this.modalVisible}`}>
                     <div class="modal-background"></div>
                     <div class="modal-card">
-                        <header class="modal-card-head">
-                            <p class="modal-card-title">Modal title</p>
-                            <button
-                                class="delete"
-                                aria-label="close"
-                                onClick={() => this.handleModal()}
-                            ></button>
-                        </header>
-                        <section class="modal-card-body">
-                            <b-field label="Rounded">
-                                <b-input placeholder="No label"></b-input>
-                            </b-field>
+                        <section class="">
+                            <div class="box" style={{ width: '500px' }}>
+                                <div class="level">
+                                    <div class="level-left">
+                                        <p class="modal-card-title has-text-centered">
+                                            Add new task
+                                        </p>
+                                    </div>
+                                    <div class="level-right">
+                                        <button
+                                            style={
+                                                this.hover === true
+                                                    ? 'background-color: #7957d5'
+                                                    : 'background-color: #ab8efa'
+                                            }
+                                            onMouseover={() =>
+                                                this.handleMouseHover()
+                                            }
+                                            onMouseleave={() =>
+                                                this.handleMouseHover()
+                                            }
+                                            class="delete"
+                                            aria-label="close"
+                                            onClick={() => this.handleModal()}
+                                        ></button>
+                                    </div>
+                                </div>
+                                <article class="media">
+                                    <div class="media-content">
+                                        <div
+                                            class="content"
+                                            style={{ marginTop: '1em' }}
+                                        >
+                                            <b-field
+                                                message={this.messageError}
+                                                type={this.hasError}
+                                                label="Description"
+                                                label-position="on-border"
+                                                custom-class="has-text-primary"
+                                            >
+                                                <b-input
+                                                    placeholder="Ex: Make a coffe"
+                                                    v-model={this.description}
+                                                ></b-input>
+                                            </b-field>
+                                        </div>
+                                        <div class="has-text-centered">
+                                            <b-button
+                                                icon-left="save"
+                                                type="is-success"
+                                                onClick={() =>
+                                                    this.handleSubmit()
+                                                }
+                                            >
+                                                Save
+                                            </b-button>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
                         </section>
-                        <footer class="modal-card-foot">
-                            <button class="button is-success">
-                                Save changes
-                            </button>
-                            <button class="button">Cancel</button>
-                        </footer>
                     </div>
                 </div>
 

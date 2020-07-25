@@ -5,24 +5,34 @@ export default {
 
     data() {
         return {
-            arrToDos: [
+            arrTodos: [
                 { id: 1, desc: 'wake up' },
                 { id: 2, desc: 'smoke weed' },
-                { id: 3, desc: 'make a coffe' },
-                { id: 4, desc: 'go to work' },
-                { id: 5, desc: 'eat eat eat' },
-                { id: 6, desc: 'return' },
+                // { id: 3, desc: 'make a coffe' },
+                // { id: 4, desc: 'go to work' },
+                // { id: 5, desc: 'eat eat eat' },
+                // { id: 6, desc: 'return' },
             ],
         };
     },
 
-    methods: {},
+    methods: {
+        handleSubmitTodo(data) {
+            if (!data) return;
+            this.arrTodos.push(
+                Object.assign({}, { id: this.arrTodos.length + 1, desc: data })
+            );
+        },
+    },
 
     render() {
         return (
             <div class="tile is-ancestor">
                 <div class="tile is-parent is-4">
-                    <ToDo list={this.arrToDos} />
+                    <ToDo
+                        list={this.arrTodos}
+                        on-changes={this.handleSubmitTodo}
+                    />
                 </div>
                 <div class="tile is-parent is-4">
                     <article class="tile is-child box">
