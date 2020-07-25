@@ -15,12 +15,12 @@ const routes = [
         name: 'app',
         component: () => import('../components/app'),
     },
-    {
-        path: '/tarefa',
-        name: 'tarefa',
-        component: () =>
-            import(/* webpackChunkName: "about" */ '../components/tarefa'),
-    },
+    // {
+    //     path: '/tarefa',
+    //     name: 'tarefa',
+    //     component: () =>
+    //         import(/* webpackChunkName: "about" */ '../components/tarefa'),
+    // },
 ];
 
 const router = new VueRouter({ mode: 'history', routes });

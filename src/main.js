@@ -7,6 +7,7 @@ import {
     faBan,
     faEdit,
     faClipboardCheck,
+    faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'buefy/dist/buefy.css';
@@ -14,7 +15,7 @@ import App from './App';
 import router from './router';
 
 Vue.config.productionTip = false;
-library.add(faThumbtack, faBan, faEdit, faClipboardCheck);
+library.add(faThumbtack, faBan, faEdit, faClipboardCheck, faPlusCircle);
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 Vue.use(Buefy, {
