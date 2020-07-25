@@ -3,13 +3,14 @@ import Buefy from 'buefy';
 import { library } from '@fortawesome/fontawesome-svg-core';
 // internal icons
 import {
-    faThumbtack,
+    faClock,
     faBan,
     faEdit,
     faClipboardCheck,
     faPlusCircle,
     faExclamationCircle,
     faSave,
+    faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'buefy/dist/buefy.css';
@@ -18,13 +19,14 @@ import router from './router';
 
 Vue.config.productionTip = false;
 library.add(
-    faThumbtack,
+    faClock,
     faBan,
     faEdit,
     faClipboardCheck,
     faPlusCircle,
     faExclamationCircle,
-    faSave
+    faSave,
+    faTrashAlt
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);

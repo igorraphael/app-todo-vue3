@@ -41,13 +41,9 @@ export default {
             this.hover = !this.hover;
         },
 
-        danger() {
-            const notif = this.$buefy.notification.open({
-                message: `Please, enter the description..`,
-                position: 'is-bottom-right',
-                type: 'is-danger',
-                hasIcon: true,
-            });
+        handleDelete(index) {
+            // if (!index) return;
+            this.confirmDelete(index);
         },
 
         handleSubmit() {
@@ -57,6 +53,27 @@ export default {
             }
             this.$emit('changes', this.description);
             this.handleModal();
+        },
+
+        confirmDelete(index) {
+            this.$buefy.dialog.confirm({
+                title: 'Deleting task',
+                message:
+                    'Are you sure you want to <b>delete</b> your task? This action cannot be undone.',
+                confirmText: 'Delete Account',
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => this.todos.splice(index, 1),
+            });
+        },
+
+        danger() {
+            const notif = this.$buefy.notification.open({
+                message: `Please, enter the description..`,
+                position: 'is-bottom-right',
+                type: 'is-danger',
+                hasIcon: true,
+            });
         },
     },
 
@@ -154,37 +171,45 @@ export default {
                                 <li
                                     key={index}
                                     class="box"
-                                    style="padding: 0.7rem;"
+                                    style={{ padding: '0.7em' }}
                                 >
-                                    <div class="content">
-                                        <div class="level has-text-justified">
-                                            <div class="level-item">
-                                                <b-icon
-                                                    class="has-text-link"
-                                                    icon="thumbtack"
-                                                    size="is-small"
-                                                ></b-icon>
-                                            </div>
-                                            <div class="level-item">
-                                                <span class="title is-6 has-text-primary">
+                                    <article
+                                        class="media"
+                                        style={{ height: '20px' }}
+                                    >
+                                        <div class="media-left">
+                                            <b-icon
+                                                style={{ marginTop: '2px' }}
+                                                class="has-text-link"
+                                                icon="clock"
+                                                size="is-small"
+                                            ></b-icon>
+                                        </div>
+                                        <div
+                                            class="media-content"
+                                            style={{ lineHeight: '10px' }}
+                                        >
+                                            <div class="content">
+                                                <span class="title is-6 has-text-dark">
                                                     {todo.desc}
                                                 </span>
                                             </div>
-                                            <div class="level-item">
-                                                <b-icon
-                                                    style="margin: 0 6px;"
-                                                    type="is-info"
-                                                    icon="edit"
-                                                    size="is-small"
-                                                />
-                                                <b-icon
-                                                    type="is-danger"
-                                                    icon="ban"
-                                                    size="is-small"
-                                                />
-                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="media-rigth">
+                                            <span
+                                                onClick={this.handleDelete.bind(
+                                                    index
+                                                )}
+                                            >
+                                                <b-icon
+                                                    style={{ marginTop: '2px' }}
+                                                    class="has-text-danger"
+                                                    icon="trash-alt"
+                                                    size="is-small"
+                                                />
+                                            </span>
+                                        </div>
+                                    </article>
                                 </li>
                             );
                         })}
