@@ -1,6 +1,6 @@
 export default {
     props: {
-        list: { type: Array, default: null },
+        list: { type: Array, default: () => [] },
     },
 
     data() {
@@ -32,6 +32,15 @@ export default {
     },
 
     methods: {
+        dragStart(event, target) {
+            // console.log('start ' + this.$refs);
+            // console.log(target);
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('itemID', target.id);
+            // this.$emit('drag', target.id);
+            //
+        },
+
         handleModal() {
             this.modalVisible = this.modalVisible ? '' : 'is-active';
             this.description = undefined;
@@ -78,6 +87,11 @@ export default {
     },
 
     render() {
+        let li = {
+            props: {
+                type: 'is-success',
+            },
+        };
         return (
             <article class="tile is-child box ">
                 <p class="title has-text-black">To do</p>
@@ -169,9 +183,15 @@ export default {
                         {this.todos.map((todo, index) => {
                             return (
                                 <li
+                                    ref="to-do"
+                                    onClick={(e) => console.log(e.target)}
                                     key={index}
-                                    class="box"
-                                    style={{ padding: '0.7em' }}
+                                    class={`box`}
+                                    style={{
+                                        padding: '0.7em',
+                                    }}
+                                    draggable={true}
+                                    onDragstart={(e) => this.dragStart(e, todo)}
                                 >
                                     <article
                                         class="media"
