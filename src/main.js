@@ -11,6 +11,8 @@ import {
     faExclamationCircle,
     faSave,
     faTrashAlt,
+    faFrown,
+    faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'buefy/dist/buefy.css';
@@ -26,7 +28,9 @@ library.add(
     faPlusCircle,
     faExclamationCircle,
     faSave,
-    faTrashAlt
+    faTrashAlt,
+    faFrown,
+    faQuestionCircle
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);

@@ -87,11 +87,6 @@ export default {
     },
 
     render() {
-        let li = {
-            props: {
-                type: 'is-success',
-            },
-        };
         return (
             <article class="tile is-child box ">
                 <p class="title has-text-black">To do</p>

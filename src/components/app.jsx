@@ -1,5 +1,4 @@
-import ToDo from './ToDo';
-import Doing from './ToDo';
+import Block from './block';
 
 export default {
     mounted() {},
@@ -10,9 +9,9 @@ export default {
                 { id: 1, desc: 'wake up', list: 1 },
                 { id: 2, desc: 'smoke weed', list: 1 },
                 { id: 3, desc: 'make a coffe', list: 2 },
-                // { id: 4, desc: 'go to work' },
-                // { id: 5, desc: 'eat eat eat' },
-                // { id: 6, desc: 'return' },
+                { id: 4, desc: 'go to work', list: 1 },
+                { id: 5, desc: 'eat eat eat', list: 1 },
+                { id: 6, desc: 'return', list: 1 },
             ],
         };
     },
@@ -66,9 +65,13 @@ export default {
         return (
             <div class="tile is-ancestor">
                 <div class="tile is-parent is-4">
-                    <ToDo on-changes={this.handleSubmitTodo} />
+                    {/* <ToDo
+                        on-changes={this.handleSubmitTodo}
+                        list={this.listOne}
+                    /> */}
+                    <Block title="Test" subTitle="first test component" />
                 </div>
-                {/* <div
+                <div
                     class="tile is-parent is-4"
                     onDragover={(e) => this.dragOver(e)}
                     onDrop={(e) => this.onDrop(e)}
@@ -84,14 +87,14 @@ export default {
                             </ul>
                         </div>
                     </article>
-                </div> */}
+                </div>
                 <div
                     class="tile is-parent is-4"
                     onDragover={(e) => this.dragOver(e)}
                     onDrop={(e) => this.onDrop(e)}
                 >
-                    <Doing key="doing" list={this.listTwo} />
-                    {/* <article class="tile is-child box">
+                    {/* <Doing key="doing" list={this.listTwo} /> */}
+                    <article class="tile is-child box">
                         <p class="title has-text-black">Done</p>
                         <p class="subtitle has-text-black">With some content</p>
                         <div class="content">
@@ -101,7 +104,7 @@ export default {
                                 <li> task 3</li>
                             </ul>
                         </div>
-                    </article> */}
+                    </article>
                 </div>
             </div>
         );
