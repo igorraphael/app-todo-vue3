@@ -1,4 +1,62 @@
 export default {
+    computed: {
+        hasError() {
+            return this.description &&
+                this.description.length > 1 &&
+                this.description.length < 6
+                ? 'is-danger'
+                : '';
+        },
+
+        messageError() {
+            return this.description &&
+                this.description.length > 1 &&
+                this.description.length < 6
+                ? 'Description must have at least 5 characters'
+                : '';
+        },
+    },
+
+    methods: {
+        handleMouseHover() {
+            this.hover = !this.hover;
+        },
+        handleDelete(index) {
+            // if (!index) return;
+            this.confirmDelete(index);
+        },
+
+        handleSubmit() {
+            if (!this.description || this.description.length < 6) {
+                this.danger();
+                return;
+            }
+            this.$emit('changes', this.description);
+            this.handleModal();
+        },
+
+        confirmDelete(index) {
+            this.$buefy.dialog.confirm({
+                title: 'Deleting task',
+                message:
+                    'Are you sure you want to <b>delete</b> your task? This action cannot be undone.',
+                confirmText: 'Delete Account',
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => this.todos.splice(index, 1),
+            });
+        },
+
+        danger() {
+            const notif = this.$buefy.notification.open({
+                message: `Please, enter the description..`,
+                position: 'is-bottom-right',
+                type: 'is-danger',
+                hasIcon: true,
+            });
+        },
+    },
+
     render() {
         return (
             <div>

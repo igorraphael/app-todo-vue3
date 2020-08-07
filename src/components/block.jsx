@@ -11,35 +11,8 @@ export default {
         labelTooltip: { Type: String, default: () => 'This label tooltip..' },
     },
 
-    mounted() {
-        console.log(this.isTodo);
-    },
     data() {
-        return {
-            modalVisible: undefined,
-            todos: this.list,
-            hover: false,
-            description: undefined,
-            sub: false,
-        };
-    },
-
-    computed: {
-        hasError() {
-            return this.description &&
-                this.description.length > 1 &&
-                this.description.length < 6
-                ? 'is-danger'
-                : '';
-        },
-
-        messageError() {
-            return this.description &&
-                this.description.length > 1 &&
-                this.description.length < 6
-                ? 'Description must have at least 5 characters'
-                : '';
-        },
+        return {};
     },
 
     methods: {
@@ -50,50 +23,6 @@ export default {
             event.dataTransfer.setData('itemID', target.id);
             // this.$emit('drag', target.id);
             //
-        },
-
-        handleModal() {
-            this.modalVisible = this.modalVisible ? '' : 'is-active';
-            this.description = undefined;
-        },
-
-        handleMouseHover() {
-            this.hover = !this.hover;
-        },
-
-        handleDelete(index) {
-            // if (!index) return;
-            this.confirmDelete(index);
-        },
-
-        handleSubmit() {
-            if (!this.description || this.description.length < 6) {
-                this.danger();
-                return;
-            }
-            this.$emit('changes', this.description);
-            this.handleModal();
-        },
-
-        confirmDelete(index) {
-            this.$buefy.dialog.confirm({
-                title: 'Deleting task',
-                message:
-                    'Are you sure you want to <b>delete</b> your task? This action cannot be undone.',
-                confirmText: 'Delete Account',
-                type: 'is-danger',
-                hasIcon: true,
-                onConfirm: () => this.todos.splice(index, 1),
-            });
-        },
-
-        danger() {
-            const notif = this.$buefy.notification.open({
-                message: `Please, enter the description..`,
-                position: 'is-bottom-right',
-                type: 'is-danger',
-                hasIcon: true,
-            });
         },
     },
 
@@ -110,7 +39,7 @@ export default {
                             <b-button
                                 icon-left="plus-circle"
                                 type="is-success"
-                                onClick={() => this.handleModal()}
+                                onClick={() => console.log('handle modal')}
                             >
                                 Add
                             </b-button>
@@ -125,7 +54,14 @@ export default {
                         )}
                     </div>
                 </div>
-                <div class="content">
+                <div
+                    class="content"
+                    style={
+                        !this.list.length
+                            ? 'border:solid 1px #c3c3c3; border-radius: 5px; cursor: pointer;'
+                            : ''
+                    }
+                >
                     {!this.list.length ? (
                         <div slot="empty">
                             <section class="section">
@@ -142,7 +78,7 @@ export default {
                         </div>
                     ) : (
                         <ul style="list-style-type: none; margin: 0;">
-                            {this.todos.map((todo, index) => {
+                            {this.list.map((todo, index) => {
                                 return (
                                     <li
                                         ref="to-do"
@@ -181,9 +117,11 @@ export default {
                                             </div>
                                             <div class="media-rigth">
                                                 <span
-                                                    onClick={this.handleDelete.bind(
-                                                        index
-                                                    )}
+                                                    onClick={() =>
+                                                        console.log(
+                                                            'handle delete'
+                                                        )
+                                                    }
                                                 >
                                                     <b-icon
                                                         style={{

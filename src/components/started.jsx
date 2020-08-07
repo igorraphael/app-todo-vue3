@@ -1,9 +1,4 @@
 export default {
-    mounted() {},
-    data() {
-        return {};
-    },
-
     render() {
         return (
             <div class="has-text-centered">
