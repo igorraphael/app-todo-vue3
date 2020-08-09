@@ -6,7 +6,7 @@ export default {
             initTasks: [
                 { id: 1, desc: 'wake up', list: 1 },
                 { id: 2, desc: 'smoke weed', list: 1 },
-                { id: 3, desc: 'make a coffe', list: 2 },
+                { id: 3, desc: 'make a coffe', list: 1 },
                 { id: 4, desc: 'go to work', list: 1 },
                 // { id: 5, desc: 'eat eat eat', list: 1 },
                 // { id: 6, desc: 'return', list: 1 },
@@ -27,27 +27,19 @@ export default {
     },
 
     methods: {
-        dragOver(event) {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = 'move';
-        },
+        onDropTask(data) {
+            if (!data) return;
 
-        onDrop(event) {
-            let id = parseInt(event.dataTransfer.getData('itemID'));
+            if (typeof data !== 'object')
+                throw new Error(
+                    'Error transfer data. expected string 1/1 (id/list)!'
+                );
 
-            let selectedItem = this.listTodo.find((item) => item.id === id);
-            // let index = this.listTodo.map((item) => item.id).indexOf(id);
-            console.log(selectedItem);
-            if (selectedItem !== -1) {
-                this.$nextTick(() => {
-                    this.listTodo.splice(selectedItem, 1);
-                    this.listDoing.push(
-                        Object.assign({}, selectedItem, (selectedItem.list = 2))
-                    );
-                });
+            let findTask = this.initTasks.find((item) => item.id === data.id);
+            if (findTask !== -1) {
+                console.log(findTask);
+                findTask.list = data.currentBlock;
             }
-            console.log(this.listTodo);
-            console.log(this.initTasks);
         },
     },
 
@@ -60,6 +52,7 @@ export default {
                         subTitle="list of tasks to do"
                         isTodo={true}
                         list={this.listTodo}
+                        keyBlock={1}
                     />
                 </div>
                 <div class="tile is-parent is-4">
@@ -68,6 +61,8 @@ export default {
                         subTitle="list of tasks doing"
                         labelTooltip="Drag task to do here"
                         list={this.listDoing}
+                        keyBlock={2}
+                        onDropItem={(data) => this.onDropTask(data)}
                     />
                 </div>
                 <div class="tile is-parent is-4">
@@ -75,6 +70,7 @@ export default {
                         title="Done"
                         subTitle="list of tasks done"
                         labelTooltip="Drag task doing here"
+                        keyBlock={3}
                     />
                 </div>
             </div>

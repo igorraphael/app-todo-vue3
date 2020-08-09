@@ -8,21 +8,44 @@ export default {
             default: () => 'This is subtitle, short',
         },
         isTodo: { Type: Boolean, default: () => false },
+        keyBlock: { Type: Number, required: true },
         labelTooltip: { Type: String, default: () => 'This label tooltip..' },
     },
 
     data() {
-        return {};
+        return {
+            ref: 'refDrop',
+        };
+    },
+
+    beforeMount() {
+        if (this.list.length) {
+            this.ref = this.list[0].list;
+        }
     },
 
     methods: {
+        dragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+        },
+
+        onDrop(event) {
+            let iten = event.dataTransfer.getData('task');
+            let dropped = Object.assign({}, JSON.parse(iten), {
+                currentBlock: this.keyBlock,
+            });
+            this.$emit('dropItem', dropped);
+        },
+
         dragStart(event, target) {
-            // console.log('start ' + this.$refs);
-            // console.log(target);
+            // console.log('start ' + target.desc);
+            let taskDrag = JSON.stringify({
+                id: target.id,
+                list: this.ref,
+            });
             event.dataTransfer.effectAllowed = 'move';
-            event.dataTransfer.setData('itemID', target.id);
-            // this.$emit('drag', target.id);
-            //
+            event.dataTransfer.setData('task', taskDrag);
         },
     },
 
@@ -61,6 +84,8 @@ export default {
                             ? 'border:solid 1px #c3c3c3; border-radius: 5px; cursor: pointer;'
                             : ''
                     }
+                    onDragover={(e) => this.dragOver(e)}
+                    onDrop={(e) => this.onDrop(e)}
                 >
                     {!this.list.length ? (
                         <div slot="empty">
@@ -81,8 +106,8 @@ export default {
                             {this.list.map((todo, index) => {
                                 return (
                                     <li
-                                        ref="to-do"
-                                        onClick={(e) => console.log(e.target)}
+                                        ref={this.ref}
+                                        // onClick={(e) => console.log(e.target)}
                                         key={index}
                                         class={`box`}
                                         style={{
