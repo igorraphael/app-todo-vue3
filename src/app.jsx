@@ -7,7 +7,7 @@ export default {
                 { id: 1, desc: 'wake up', list: 1 },
                 { id: 2, desc: 'smoke weed', list: 1 },
                 { id: 3, desc: 'make a coffe', list: 1 },
-                { id: 4, desc: 'go to work', list: 1 },
+                // { id: 4, desc: 'go to work', list: 1 },
                 // { id: 5, desc: 'eat eat eat', list: 1 },
                 // { id: 6, desc: 'return', list: 1 },
             ],
@@ -37,7 +37,7 @@ export default {
 
             let findTask = this.initTasks.find((item) => item.id === data.id);
             if (findTask !== -1) {
-                console.log(findTask);
+                // console.log(findTask);
                 findTask.list = data.currentBlock;
             }
         },

@@ -14,13 +14,22 @@ export default {
 
     data() {
         return {
-            ref: 'refDrop',
+            ref: undefined,
+            selected: false,
         };
     },
 
     beforeMount() {
         if (this.list.length) {
-            this.ref = this.list[0].list;
+            this.ref = `list${this.list[0].list}`;
+        }
+    },
+
+    updated() {
+        if (this.selected && this.list.length) {
+            this.$refs.list1.firstChild.classList.remove(
+                'has-background-primary'
+            );
         }
     },
 
@@ -36,14 +45,16 @@ export default {
                 currentBlock: this.keyBlock,
             });
             this.$emit('dropItem', dropped);
+            event.dataTransfer.clearData();
         },
 
         dragStart(event, target) {
-            // console.log('start ' + target.desc);
+            event.target.classList.add('has-background-primary');
             let taskDrag = JSON.stringify({
                 id: target.id,
                 list: this.ref,
             });
+            this.selected = true;
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('task', taskDrag);
         },
@@ -102,16 +113,18 @@ export default {
                             </section>
                         </div>
                     ) : (
-                        <ul style="list-style-type: none; margin: 0;">
+                        <ul
+                            style="list-style-type: none; margin: 0;"
+                            ref={this.ref}
+                        >
                             {this.list.map((todo, index) => {
                                 return (
                                     <li
-                                        ref={this.ref}
-                                        // onClick={(e) => console.log(e.target)}
                                         key={index}
-                                        class={`box`}
+                                        class="box"
                                         style={{
                                             padding: '0.7em',
+                                            border: 'solid 1px #c3c3c3',
                                         }}
                                         draggable={true}
                                         onDragstart={(e) =>
