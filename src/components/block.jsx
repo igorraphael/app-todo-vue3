@@ -90,11 +90,11 @@ export default {
                 </div>
                 <div
                     class="content"
-                    style={
+                    style={`min-height: 150px; ${
                         !this.list.length
                             ? 'border:solid 1px #c3c3c3; border-radius: 5px; cursor: pointer;'
                             : ''
-                    }
+                    }`}
                     onDragover={(e) => this.dragOver(e)}
                     onDrop={(e) => this.onDrop(e)}
                 >
@@ -139,7 +139,11 @@ export default {
                                                 <b-icon
                                                     style={{ marginTop: '2px' }}
                                                     class="has-text-link"
-                                                    icon="clock"
+                                                    icon={
+                                                        todo.list === 1
+                                                            ? 'clock'
+                                                            : 'spinner'
+                                                    }
                                                     size="is-small"
                                                 ></b-icon>
                                             </div>
@@ -166,7 +170,11 @@ export default {
                                                             marginTop: '2px',
                                                         }}
                                                         class="has-text-danger"
-                                                        icon="trash-alt"
+                                                        icon={
+                                                            todo.list === 1
+                                                                ? 'trash-alt'
+                                                                : 'clipboard-check'
+                                                        }
                                                         size="is-small"
                                                     />
                                                 </span>

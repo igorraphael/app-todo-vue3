@@ -13,6 +13,7 @@ import {
     faTrashAlt,
     faFrown,
     faQuestionCircle,
+    faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'buefy/dist/buefy.css';
@@ -30,7 +31,8 @@ library.add(
     faSave,
     faTrashAlt,
     faFrown,
-    faQuestionCircle
+    faQuestionCircle,
+    faSpinner
 );
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
