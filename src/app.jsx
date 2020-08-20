@@ -7,9 +7,6 @@ export default {
                 { id: 1, desc: 'wake up', list: 1 },
                 { id: 2, desc: 'smoke weed', list: 1 },
                 { id: 3, desc: 'make a coffe', list: 1 },
-                // { id: 4, desc: 'go to work', list: 1 },
-                // { id: 5, desc: 'eat eat eat', list: 1 },
-                // { id: 6, desc: 'return', list: 1 },
             ],
         };
     },
@@ -42,16 +39,19 @@ export default {
             }
         },
 
+        handleDelete(data) {
+            if (!data) return;
+            const idx = this.initTasks.findIndex((el) => el.id === data.id);
+            this.initTasks.splice(idx, 1);
+        },
+
         handleSubmit(data) {
             if (!data) return;
-            // console.log(this.initTasks.length + 1);
-
             const newTask = {
                 id: this.initTasks.length + 1,
                 desc: data,
                 list: 1,
             };
-
             this.initTasks.push(newTask);
         },
     },
@@ -67,6 +67,7 @@ export default {
                         list={this.listTodo}
                         keyBlock={1}
                         onSubmit={(data) => this.handleSubmit(data)}
+                        onDelete={(data) => this.handleDelete(data)}
                     />
                 </div>
                 <div class="tile is-parent is-4">

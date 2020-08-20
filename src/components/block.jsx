@@ -51,6 +51,10 @@ export default {
             event.dataTransfer.clearData();
         },
 
+        dragLeave(event) {
+            event.target.classList.remove('has-background-primary');
+        },
+
         dragStart(event, target) {
             event.target.classList.add('has-background-primary');
             let taskDrag = JSON.stringify({
@@ -62,7 +66,18 @@ export default {
             event.dataTransfer.setData('task', taskDrag);
         },
 
-        handleModal() {},
+        handleDetele(data) {
+            if (!data) return;
+            this.$buefy.dialog.confirm({
+                title: 'Deleting task',
+                message:
+                    'Are you sure you want to <b>delete</b> your task? This action cannot be undone.',
+                confirmText: 'Delete Account',
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => this.$emit('delete', data),
+            });
+        },
     },
 
     render() {
@@ -104,6 +119,7 @@ export default {
                     }`}
                     onDragover={(e) => this.dragOver(e)}
                     onDrop={(e) => this.onDrop(e)}
+                    onDragend={this.dragLeave}
                 >
                     {!this.list.length ? (
                         <div slot="empty">
@@ -137,6 +153,7 @@ export default {
                                         onDragstart={(e) =>
                                             this.dragStart(e, todo)
                                         }
+                                        // onDragleave={this.dragLeave}
                                     >
                                         <article
                                             class="media"
@@ -169,11 +186,9 @@ export default {
                                                 </div>
                                             </div>
                                             <div class="media-rigth">
-                                                <span
+                                                <div
                                                     onClick={() =>
-                                                        console.log(
-                                                            'handle delete'
-                                                        )
+                                                        this.handleDetele(todo)
                                                     }
                                                 >
                                                     <b-icon
@@ -188,7 +203,7 @@ export default {
                                                         }
                                                         size="is-small"
                                                     />
-                                                </span>
+                                                </div>
                                             </div>
                                         </article>
                                     </li>

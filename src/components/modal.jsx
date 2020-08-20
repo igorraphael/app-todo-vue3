@@ -14,6 +14,7 @@ export default {
         modalVisible() {
             return this.visible ? 'is-active' : '';
         },
+
         hasError() {
             return this.description &&
                 this.description.length > 1 &&
@@ -35,12 +36,9 @@ export default {
         handleCloseModal(is) {
             this.$emit('visibleChange', is);
         },
+
         handleMouseHover() {
             this.hover = !this.hover;
-        },
-        handleDelete(index) {
-            // if (!index) return;
-            this.confirmDelete(index);
         },
 
         handleSubmit() {
@@ -54,18 +52,9 @@ export default {
                 return;
             }
             this.$emit('submit', this.description);
-            this.handleCloseModal(false);
-        },
-
-        confirmDelete(index) {
-            this.$buefy.dialog.confirm({
-                title: 'Deleting task',
-                message:
-                    'Are you sure you want to <b>delete</b> your task? This action cannot be undone.',
-                confirmText: 'Delete Account',
-                type: 'is-danger',
-                hasIcon: true,
-                onConfirm: () => this.todos.splice(index, 1),
+            this.$nextTick(() => {
+                this.description = undefined;
+                this.handleCloseModal(false);
             });
         },
     },
