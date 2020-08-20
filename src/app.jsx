@@ -41,6 +41,19 @@ export default {
                 findTask.list = data.currentBlock;
             }
         },
+
+        handleSubmit(data) {
+            if (!data) return;
+            // console.log(this.initTasks.length + 1);
+
+            const newTask = {
+                id: this.initTasks.length + 1,
+                desc: data,
+                list: 1,
+            };
+
+            this.initTasks.push(newTask);
+        },
     },
 
     render() {
@@ -53,6 +66,7 @@ export default {
                         isTodo={true}
                         list={this.listTodo}
                         keyBlock={1}
+                        onSubmit={(data) => this.handleSubmit(data)}
                     />
                 </div>
                 <div class="tile is-parent is-4">

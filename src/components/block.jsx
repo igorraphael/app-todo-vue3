@@ -1,3 +1,5 @@
+import Modal from './modal';
+
 export default {
     props: {
         list: { type: Array, default: () => [] },
@@ -14,6 +16,7 @@ export default {
 
     data() {
         return {
+            visibleModal: false,
             ref: undefined,
             selected: false,
         };
@@ -58,6 +61,8 @@ export default {
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('task', taskDrag);
         },
+
+        handleModal() {},
     },
 
     render() {
@@ -73,7 +78,9 @@ export default {
                             <b-button
                                 icon-left="plus-circle"
                                 type="is-success"
-                                onClick={() => console.log('handle modal')}
+                                onClick={() =>
+                                    (this.visibleModal = !this.visibleModal)
+                                }
                             >
                                 Add
                             </b-button>
@@ -137,7 +144,9 @@ export default {
                                         >
                                             <div class="media-left">
                                                 <b-icon
-                                                    style={{ marginTop: '2px' }}
+                                                    style={{
+                                                        marginTop: '2px',
+                                                    }}
                                                     class="has-text-link"
                                                     icon={
                                                         todo.list === 1
@@ -149,7 +158,9 @@ export default {
                                             </div>
                                             <div
                                                 class="media-content"
-                                                style={{ lineHeight: '10px' }}
+                                                style={{
+                                                    lineHeight: '10px',
+                                                }}
                                             >
                                                 <div class="content">
                                                     <span class="title is-6 has-text-dark">
@@ -186,6 +197,11 @@ export default {
                         </ul>
                     )}
                 </div>
+                <Modal
+                    visible={this.visibleModal}
+                    onVisibleChange={(value) => (this.visibleModal = value)}
+                    onSubmit={(data) => this.$emit('submit', data)}
+                />
             </article>
         );
     },

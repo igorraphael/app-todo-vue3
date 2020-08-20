@@ -1,5 +1,19 @@
 export default {
+    props: {
+        visible: { type: Boolean },
+    },
+
+    data() {
+        return {
+            hover: false,
+            description: undefined,
+        };
+    },
+
     computed: {
+        modalVisible() {
+            return this.visible ? 'is-active' : '';
+        },
         hasError() {
             return this.description &&
                 this.description.length > 1 &&
@@ -18,6 +32,9 @@ export default {
     },
 
     methods: {
+        handleCloseModal(is) {
+            this.$emit('visibleChange', is);
+        },
         handleMouseHover() {
             this.hover = !this.hover;
         },
@@ -28,11 +45,16 @@ export default {
 
         handleSubmit() {
             if (!this.description || this.description.length < 6) {
-                this.danger();
+                const notif = this.$buefy.notification.open({
+                    message: `Please, enter the description..`,
+                    position: 'is-bottom-right',
+                    type: 'is-danger',
+                    hasIcon: true,
+                });
                 return;
             }
-            this.$emit('changes', this.description);
-            this.handleModal();
+            this.$emit('submit', this.description);
+            this.handleCloseModal(false);
         },
 
         confirmDelete(index) {
@@ -44,15 +66,6 @@ export default {
                 type: 'is-danger',
                 hasIcon: true,
                 onConfirm: () => this.todos.splice(index, 1),
-            });
-        },
-
-        danger() {
-            const notif = this.$buefy.notification.open({
-                message: `Please, enter the description..`,
-                position: 'is-bottom-right',
-                type: 'is-danger',
-                hasIcon: true,
             });
         },
     },
@@ -74,7 +87,7 @@ export default {
                                     <div class="level-right">
                                         <button
                                             style={
-                                                this.hover === true
+                                                this.hover
                                                     ? 'background-color: #7957d5'
                                                     : 'background-color: #ab8efa'
                                             }
@@ -86,7 +99,9 @@ export default {
                                             }
                                             class="delete"
                                             aria-label="close"
-                                            onClick={() => this.handleModal()}
+                                            onClick={() =>
+                                                this.handleCloseModal(false)
+                                            }
                                         ></button>
                                     </div>
                                 </div>
