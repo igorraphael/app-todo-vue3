@@ -33,10 +33,8 @@ export default {
                 );
 
             let findTask = this.initTasks.find((item) => item.id === data.id);
-            if (findTask !== -1) {
-                // console.log(findTask);
-                findTask.list = data.currentBlock;
-            }
+
+            if (~findTask) findTask.list = data.currentBlock;
         },
 
         handleDelete(data) {
@@ -53,6 +51,11 @@ export default {
                 list: 1,
             };
             this.initTasks.push(newTask);
+        },
+
+        handleChangeTask(data) {
+            if (!data) return;
+            data.list = 3;
         },
     },
 
@@ -78,6 +81,7 @@ export default {
                         list={this.listDoing}
                         keyBlock={2}
                         onDropItem={(data) => this.onDropTask(data)}
+                        onChange={(data) => this.handleChangeTask(data)}
                     />
                 </div>
                 <div class="tile is-parent is-4">
@@ -86,6 +90,8 @@ export default {
                         subTitle="list of tasks done"
                         labelTooltip="Drag task doing here"
                         keyBlock={3}
+                        list={this.listDone}
+                        onDropItem={(data) => this.onDropTask(data)}
                     />
                 </div>
             </div>

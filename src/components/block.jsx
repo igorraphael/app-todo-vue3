@@ -28,14 +28,6 @@ export default {
         }
     },
 
-    updated() {
-        if (this.selected && this.list.length) {
-            this.$refs.list1.firstChild.classList.remove(
-                'has-background-primary'
-            );
-        }
-    },
-
     methods: {
         dragOver(event) {
             event.preventDefault();
@@ -66,8 +58,17 @@ export default {
             event.dataTransfer.setData('task', taskDrag);
         },
 
-        handleDetele(data) {
+        handleActionIcon(data) {
             if (!data) return;
+            if (data.list === 3) return;
+            if (data.list === 1) {
+                this.handleDetele(data);
+            } else {
+                this.handleConfirm(data);
+            }
+        },
+
+        handleDetele(data) {
             this.$buefy.dialog.confirm({
                 title: 'Deleting task',
                 message:
@@ -77,6 +78,34 @@ export default {
                 hasIcon: true,
                 onConfirm: () => this.$emit('delete', data),
             });
+        },
+
+        handleConfirm(data) {
+            this.$buefy.dialog.confirm({
+                title: 'Work finished',
+                message:
+                    'Are you sure you want to <b>finish</b> your task? This action cannot be undone.',
+                confirmText: 'Delete Account',
+                type: 'is-success',
+                hasIcon: true,
+                onConfirm: () => this.$emit('change', data),
+            });
+        },
+
+        iconLeft(list) {
+            return {
+                1: 'clock',
+                2: 'spinner',
+                3: 'check',
+            }[list];
+        },
+
+        iconRight(list) {
+            return {
+                1: 'trash-alt',
+                2: 'clipboard-check',
+                3: 'check',
+            }[list];
         },
     },
 
@@ -149,12 +178,26 @@ export default {
                                             padding: '0.7em',
                                             border: 'solid 1px #c3c3c3',
                                         }}
-                                        draggable={true}
+                                        draggable={
+                                            todo.list === 3 ? false : true
+                                        }
                                         onDragstart={(e) =>
                                             this.dragStart(e, todo)
                                         }
-                                        // onDragleave={this.dragLeave}
                                     >
+                                        {todo.list === 3 ? (
+                                            <div
+                                                style={{
+                                                    backgroundColor: 'black',
+                                                    height: '2px',
+                                                    position: 'relative',
+                                                    top: '12px',
+                                                }}
+                                            ></div>
+                                        ) : (
+                                            ''
+                                        )}
+
                                         <article
                                             class="media"
                                             style={{ height: '20px' }}
@@ -165,11 +208,9 @@ export default {
                                                         marginTop: '2px',
                                                     }}
                                                     class="has-text-link"
-                                                    icon={
-                                                        todo.list === 1
-                                                            ? 'clock'
-                                                            : 'spinner'
-                                                    }
+                                                    icon={this.iconLeft(
+                                                        todo.list
+                                                    )}
                                                     size="is-small"
                                                 ></b-icon>
                                             </div>
@@ -187,20 +228,29 @@ export default {
                                             </div>
                                             <div class="media-rigth">
                                                 <div
+                                                    disable={
+                                                        todo.list === 3
+                                                            ? true
+                                                            : false
+                                                    }
                                                     onClick={() =>
-                                                        this.handleDetele(todo)
+                                                        this.handleActionIcon(
+                                                            todo
+                                                        )
                                                     }
                                                 >
                                                     <b-icon
                                                         style={{
                                                             marginTop: '2px',
                                                         }}
-                                                        class="has-text-danger"
-                                                        icon={
+                                                        class={
                                                             todo.list === 1
-                                                                ? 'trash-alt'
-                                                                : 'clipboard-check'
+                                                                ? 'has-text-danger'
+                                                                : 'has-text-success'
                                                         }
+                                                        icon={this.iconRight(
+                                                            todo.list
+                                                        )}
                                                         size="is-small"
                                                     />
                                                 </div>
