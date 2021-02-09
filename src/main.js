@@ -1,51 +1,10 @@
-import Vue from 'vue';
-import Buefy from 'buefy';
-import { library } from '@fortawesome/fontawesome-svg-core';
-// internal icons
-import {
-    faClock,
-    faBan,
-    faEdit,
-    faClipboardCheck,
-    faPlusCircle,
-    faExclamationCircle,
-    faSave,
-    faTrashAlt,
-    faFrown,
-    faQuestionCircle,
-    faSpinner,
-    faCheck,
-    faCheckCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import 'buefy/dist/buefy.css';
-import Home from './Home';
-import router from './router';
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
+import App from './App'
 
-Vue.config.productionTip = false;
-library.add(
-    faClock,
-    faBan,
-    faEdit,
-    faClipboardCheck,
-    faPlusCircle,
-    faExclamationCircle,
-    faSave,
-    faTrashAlt,
-    faFrown,
-    faQuestionCircle,
-    faSpinner,
-    faCheck,
-    faCheckCircle
-);
+import 'element-plus/lib/theme-chalk/index.css'
 
-Vue.component('vue-fontawesome', FontAwesomeIcon);
-Vue.use(Buefy, {
-    defaultIconComponent: 'vue-fontawesome',
-    defaultIconPack: 'fas',
-});
+const Vue = createApp(App)
 
-new Vue({
-    router,
-    render: (h) => h(Home),
-}).$mount('#app');
+Vue.use(ElementPlus)
+Vue.mount('#app')

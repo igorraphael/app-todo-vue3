@@ -1,55 +1,19 @@
 {
-    "name": "app-task-example-v2",
-    "version": "2.0.0",
-    "private": true,
-    "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build",
-        "lint": "vue-cli-service lint"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.30",
-        "@fortawesome/free-solid-svg-icons": "^5.14.0",
-        "@fortawesome/vue-fontawesome": "^0.1.10",
-        "buefy": "^0.8.20",
-        "core-js": "^3.6.5",
-        "vue": "^2.6.11",
-        "vue-router": "^3.2.0"
-    },
-    "devDependencies": {
-        "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
-        "@vue/babel-preset-jsx": "^1.1.2",
-        "@vue/cli-plugin-babel": "~4.4.0",
-        "@vue/cli-plugin-eslint": "~4.4.0",
-        "@vue/cli-plugin-router": "^4.4.6",
-        "@vue/cli-service": "~4.4.0",
-        "babel-eslint": "^10.1.0",
-        "eslint": "^6.7.2",
-        "eslint-config-prettier": "^6.11.0",
-        "eslint-plugin-vue": "^6.2.2",
-        "prettier": "2.0.5",
-        "vue-template-compiler": "^2.6.11"
-    },
-    "eslintConfig": {
-        "root": true,
-        "env": {
-            "node": true
-        },
-        "extends": [
-            "plugin:vue/essential",
-            "eslint:recommended",
-            "prettier"
-        ],
-        "parserOptions": {
-            "parser": "babel-eslint"
-        },
-        "rules": {
-            "no-unused-vars": "off"
-        }
-    },
-    "browserslist": [
-        "> 1%",
-        "last 2 versions",
-        "not dead"
-    ]
+	"name": "app-todo-vue3",
+	"version": "3.0.0",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview"
+	},
+	"dependencies": {
+		"element-plus": "^1.0.2-beta.32",
+		"vue": "^3.0.5"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^1.1.4",
+		"@vitejs/plugin-vue-jsx": "^1.1.0",
+		"@vue/compiler-sfc": "^3.0.5",
+		"vite": "^2.0.0-beta.65"
+	}
 }
